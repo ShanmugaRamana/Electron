@@ -511,3 +511,153 @@ body {
 .download-btn:not(.disabled):hover {
   background-color: #218838;
 }
+
+/* --- Dashboard Layout (NEW) --- */
+.dashboard-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Make main content fill height */
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* Map takes 1 part, charts take 2 parts */
+  gap: 1.5rem;
+  flex-grow: 1; /* Allow grid to expand */
+  min-height: 0; /* Allow grid to shrink if content is larger */
+}
+
+.dashboard-panel {
+  background-color: var(--primary-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.03);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Hide overflow for panels */
+}
+
+.map-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+#campus-map-container {
+  flex-grow: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex; /* Use flex to center image */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+
+.campus-map-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Ensure the image fits within its container */
+}
+
+.charts-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-controls-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-controls-inline .control-group {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-width: 150px;
+}
+
+.filter-controls-inline .control-group label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-color-muted);
+}
+
+.filter-controls-inline .control-group input[type="date"] {
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: var(--secondary-bg);
+  color: var(--text-color);
+}
+
+
+.chart-container-single {
+  flex-grow: 1; /* Allow chart container to fill remaining space */
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* Allow chart to shrink */
+}
+
+.chart-wrapper-single {
+  flex-grow: 1;
+  position: relative; /* For Chart.js responsiveness */
+  min-height: 200px; /* Minimum height for the chart */
+}
+/* --- SVG Campus Map Styles (NEW) --- */
+.campus-map-svg {
+  width: 100%;
+  height: 100%;
+  background-color: #f8f9fa; /* Light background for the map area */
+}
+
+.campus-map-svg .building {
+  stroke: #adb5bd; /* Consistent border for all shapes */
+  stroke-width: 2;
+  transition: fill 0.3s ease;
+}
+
+/* Specific Fill Colors from your image */
+.campus-map-svg .staff-quarters {
+  fill: #f8d7da; /* Red-ish */
+}
+
+.campus-map-svg .academic-block {
+  fill: #e0e7fa; /* Purple-ish */
+}
+
+.campus-map-svg .chiller-plant {
+  fill: #d4edda; /* Green-ish */
+}
+
+.campus-map-svg .hostel {
+  fill: #e0f7fa; /* Light Blue-ish */
+}
+
+.campus-map-svg .stp {
+  fill: #f8e7f8; /* Pink-ish */
+}
+
+.campus-map-svg .building-label {
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  fill: #343a40; /* Darker text for better contrast */
+  text-anchor: middle; /* Horizontally center */
+  dominant-baseline: middle; /* Vertically center */
+  pointer-events: none; /* Make text non-clickable */
+}
+
+/* Style for rotated labels */
+.campus-map-svg .rotated-label {
+    transform-origin: center center;
+    transform: rotate(-90deg);
+}
+/* Style for the selected building on the SVG map */
+.campus-map-svg .building.selected,
+.campus-map-svg .building-group.selected .building {
+  stroke: #007bff; /* A bright blue to indicate selection */
+  stroke-width: 4;
+}

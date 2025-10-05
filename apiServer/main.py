@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import data, reports
+from app.routes import data, reports, forecasts 
 
 app = FastAPI(
     title="Power Intake and Utilization Prediction API",
@@ -27,6 +27,7 @@ app.add_middleware(
 # Include the routes from the data.py file
 app.include_router(data.router, prefix="/api/v1")
 app.include_router(reports.router, prefix="/api/v1") # <-- Add this line
+app.include_router(forecasts.router, prefix="/api/v1") # <-- Add this line
 
 @app.get("/")
 def read_root():

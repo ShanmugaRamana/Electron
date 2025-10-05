@@ -30,3 +30,12 @@ class ReportRequest(BaseModel):
     endDate: date
     metrics: list[str]
     format: str
+
+# ... (keep all your existing classes)
+
+# ... (keep all your other classes)
+
+class ForecastDataPoint(BaseModel):
+    reading_date: date
+    prediction: float | None = None
+    type: str # NEW: To identify data as 'historical' or 'predicted'
