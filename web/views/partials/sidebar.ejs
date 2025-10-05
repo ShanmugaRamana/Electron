@@ -1,0 +1,19 @@
+<nav id="sidebar" class="sidebar">
+  <div class="sidebar-header">
+    <h3>Dashboard Menu</h3>
+  </div>
+  <ul class="sidebar-menu">
+    <li><a href="/" class="<%= currentPage === 'overview' ? 'active' : '' %>">
+      <i class="fa-solid fa-chart-pie"></i> Overview
+    </a></li>
+    <li><a href="/forecasting" class="<%= currentPage === 'forecasting' ? 'active' : '' %>">
+      <i class="fa-solid fa-arrow-trend-up"></i> Forecasting
+    </a></li>
+    <li><a href="/comparison" class="<%= currentPage === 'comparison' ? 'active' : '' %>">
+      <i class="fa fa-bar-chart"></i> Comparison
+    </a></li>
+    <li><a href="/report" class="<%= currentPage === 'report' ? 'active' : '' %>">
+      <i class="fa-solid fa-file-alt"></i> Report
+    </a></li>
+  </ul>
+</nav>
