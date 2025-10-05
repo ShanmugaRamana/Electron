@@ -1,61 +1,66 @@
 <%- include('partials/header') %>
 <%- include('partials/sidebar') %>
 
-<main class="main-content">
-  <h1>Overview</h1>
+<main class="main-content" id="mainContent">
+  <h1>
+    Overview
+    <span class="subtitle">(These are complete predicted values with 75% accuracy)</span>
+  </h1>
 
-  <section class="kpi-grid">
-    <article class="kpi-card">
-      <h4>Total Consumption (Today)</h4>
-      <p class="kpi-value">-- kWh</p>
-      <p class="kpi-desc">Updated just now</p>
-    </article>
-    <article class="kpi-card">
-      <h4>Solar Generation (Today)</h4>
-      <p class="kpi-value">-- kWh</p>
-      <p class="kpi-desc">Total from all panels</p>
-    </article>
-    <article class="kpi-card">
-      <h4>Peak Usage (Last 24h)</h4>
-      <p class="kpi-value">-- kW</p>
-      <p class="kpi-desc">At 2:30 PM Yesterday</p>
-    </article>
-    <article class="kpi-card">
-      <h4>Grid Status</h4>
-      <p class="kpi-value">Stable</p>
-      <p class="kpi-desc">TNEB Campus HTSC-91</p>
-    </article>
-  </section>
+  <div class="dashboard-grid">
+    <!-- Left Section -->
+    <div class="left-section">
+      <article class="chart-container main-chart">
+        <h3>
+          Predicted Consumption (Next 7 Days)
+          <span class="chart-date-range" id="main-chart-dates"></span>
+        </h3>
+        <div class="chart-wrapper">
+          <canvas id="main-chart-area"></canvas>
+        </div>
+      </article>
 
-  <section class="charts-grid">
-    <article class="chart-container main-chart">
-      <h3>Power Consumption vs. Generation (Last 7 Days)</h3>
-      <div class="chart-placeholder" id="main-chart-area">
-        Chart will be rendered here
-      </div>
-    </article>
-    
-    <article class="chart-container secondary-chart">
-      <h3>Power Utilization Breakdown</h3>
-      <div class="chart-placeholder" id="utilization-pie-chart">
-        Pie chart will be rendered here
-      </div>
-    </article>
+      <div class="bottom-charts">
+        <article class="chart-container">
+          <h3>Predicted Utilization (Today)</h3>
+          <div class="chart-wrapper">
+            <canvas id="utilization-pie-chart"></canvas>
+          </div>
+        </article>
 
-    <article class="chart-container secondary-chart">
-      <h3>Power Intake Sources</h3>
-      <div class="chart-placeholder" id="intake-bar-chart">
-        Bar chart will be rendered here
+        <article class="chart-container">
+          <h3>Predicted Intake (Today)</h3>
+          <div class="chart-wrapper">
+            <canvas id="intake-bar-chart"></canvas>
+          </div>
+        </article>
       </div>
-    </article>
+    </div>
 
-    <article class="chart-container secondary-chart">
-      <h3>Upcoming Prediction</h3>
-      <div class="chart-placeholder" id="prediction-card">
-        Predicted values will appear here
-      </div>
-    </article>
-  </section>
+    <!-- Right Section - KPI Cards -->
+    <div class="right-section">
+      <article class="kpi-card">
+        <h4>Predicted Consumption (Today)</h4>
+        <p class="kpi-value" id="kpi-total-consumption">-- kWh</p>
+        <p class="kpi-desc" id="kpi-today-date">Today's Date</p>
+      </article>
+      <article class="kpi-card">
+        <h4>Predicted Generation (Today)</h4>
+        <p class="kpi-value" id="kpi-total-generation">-- kWh</p>
+        <p class="kpi-desc">Solar + Diesel + Biogas</p>
+      </article>
+      <article class="kpi-card">
+        <h4>Predicted Net Grid Import</h4>
+        <p class="kpi-value" id="kpi-net-grid-import">-- kWh</p>
+        <p class="kpi-desc">Consumption - Generation</p>
+      </article>
+      <article class="kpi-card">
+        <h4>Next Day's Forecast</h4>
+        <p class="kpi-value" id="kpi-next-day-forecast">-- kWh</p>
+        <p class="kpi-desc" id="kpi-next-day-date">Tomorrow's Date</p>
+      </article>
+    </div>
+  </div>
 </main>
 
 <%- include('partials/footer') %>
