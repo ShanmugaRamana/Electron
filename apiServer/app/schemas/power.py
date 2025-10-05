@@ -24,3 +24,9 @@ class TodaysOverviewResponse(BaseModel):
     forecast_trend: list[ChartDataPoint]
     utilization_breakdown: list[BreakdownData]
     intake_breakdown: list[BreakdownData]
+
+class ReportRequest(BaseModel):
+    startDate: date
+    endDate: date
+    metrics: list[str]
+    format: str

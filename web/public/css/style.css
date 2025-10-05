@@ -364,3 +364,116 @@ body {
     font-size: 1.75rem;
   }
 }
+
+
+/* --- Report Page Styles (NEW) --- */
+.report-container {
+  max-width: 900px;
+  margin: 0 auto;
+  background-color: var(--primary-bg);
+  padding: 2rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.report-section {
+  border: none;
+  border-bottom: 1px solid var(--border-color);
+  padding: 1.5rem 0;
+  margin: 0;
+}
+.report-section:last-of-type {
+  border-bottom: none;
+}
+
+.report-section legend {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0 0.5rem 0 0;
+  color: var(--text-color);
+}
+
+.date-inputs {
+  display: flex;
+  gap: 2rem;
+}
+.date-inputs input[type="date"] {
+  width: 200px;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+.option-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.radio-group label {
+  margin: 0 1rem 0 0.25rem;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.metric-item {
+  display: flex;
+  align-items: center;
+}
+.metric-item label {
+  margin-left: 0.5rem;
+}
+
+.generate-btn {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--highlight-text-color);
+  background-color: var(--highlight-color);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 2rem;
+  transition: opacity 0.2s;
+}
+.generate-btn:hover {
+  opacity: 0.9;
+}
+
+.report-status {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: var(--secondary-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  text-align: center;
+}
+
+.download-btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  color: var(--highlight-text-color);
+  background-color: #28a745; /* Green for success */
+  border-radius: 5px;
+  margin-top: 1rem;
+  transition: background-color 0.2s;
+}
+.download-btn.disabled {
+  background-color: #6c757d;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+.download-btn:not(.disabled):hover {
+  background-color: #218838;
+}

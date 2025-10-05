@@ -2,8 +2,52 @@
 <%- include('partials/sidebar') %>
 
 <main class="main-content">
-  <h1>Report</h1>
-  <p>This page will display generated reports.</p>
+  <h1>Report Generation</h1>
+
+  <div class="report-container">
+    <form id="report-form">
+      
+      <fieldset class="report-section">
+        <legend>1. Select Date Range</legend>
+        <div class="date-inputs">
+          <div>
+            <label for="start-date">Start Date</label>
+            <input type="date" id="start-date" name="start-date" required>
+          </div>
+          <div>
+            <label for="end-date">End Date</label>
+            <input type="date" id="end-date" name="end-date" required>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="report-section">
+        <legend>2. Select Metrics to Include</legend>
+        <div class="metrics-grid">
+          </div>
+      </fieldset>
+
+      <fieldset class="report-section">
+        <legend>3. Choose Output Format</legend>
+        <div class="radio-group">
+          <input type="radio" id="csv" name="format" value="csv" checked>
+          <label for="csv">CSV</label>
+          <input type="radio" id="xlsx" name="format" value="xlsx">
+          <label for="xlsx">XLSX</label>
+          <input type="radio" id="pdf" name="format" value="pdf">
+          <label for="pdf">PDF</label>
+        </div>
+      </fieldset>
+      
+      <button type="submit" class="generate-btn">Generate Report</button>
+
+    </form>
+
+    <div id="report-status-area" class="report-status" style="display: none;">
+      <p id="status-message">Generating report...</p>
+      <a href="#" id="download-link" class="download-btn disabled" download>Download Report</a>
+    </div>
+  </div>
 </main>
 
 <%- include('partials/footer') %>
