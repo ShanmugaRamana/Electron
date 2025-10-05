@@ -30,8 +30,10 @@ body {
 
 .dashboard-container {
   display: flex;
-  height: 100vh;
+  height: 100vh; /* Set the container to the full viewport height */
+  overflow: hidden; /* Prevent the main container from scrolling */
 }
+
 
 /* --- Sidebar Styles --- */
 .sidebar {
@@ -125,14 +127,18 @@ body {
 /* --- Main Content & Dashboard Styles --- */
 .main-content {
   flex-grow: 1;
+  padding: 30px;
   margin-left: var(--sidebar-width);
   transition: margin-left var(--transition-speed) ease-in-out;
+
+  /* Add these lines to manage height and layout */
   display: flex;
   flex-direction: column;
-  padding: clamp(15px, 2vw, 20px);
-  height: 100vh;
-  overflow: hidden;
+  overflow: hidden; /* Important to contain children */
 }
+
+
+
 
 .main-content.sidebar-closed {
     margin-left: 0;
@@ -365,37 +371,66 @@ body {
 }
 
 
-/* --- Report Page Styles (NEW) --- */
+/* --- Report Page Styles (Full Screen, No Scroll) --- */
 .report-container {
-  max-width: 900px;
-  margin: 0 auto;
+  display: flex;
+  gap: 2rem;
+  flex-grow: 1; /* Allow the container to fill the main-content area */
+  overflow: hidden; /* Prevent this container from overflowing */
+  min-height: 0; /* A flexbox fix to ensure proper sizing */
+}
+
+/* The <form> element acts as the left column */
+#report-form {
+  flex: 1; 
   background-color: var(--primary-bg);
   padding: 2rem;
   border-radius: 8px;
   border: 1px solid var(--border-color);
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+
+  /* Add this line to make the form scrollable if content is too tall */
+  overflow-y: auto;
 }
 
+/* The status <div> acts as the right column */
+#report-status-area {
+  flex: 1; 
+  display: flex !important; 
+  flex-direction: column;
+  justify-content: center;
+  /* position: sticky; is no longer needed */
+}
+
+/* --- The rest of your report styles --- */
 .report-section {
   border: none;
   border-bottom: 1px solid var(--border-color);
   padding: 1.5rem 0;
-  margin: 0;
+  margin: 0 0 1.5rem 0;
 }
 .report-section:last-of-type {
   border-bottom: none;
+  margin-bottom: 0;
 }
 
 .report-section legend {
   font-size: 1.2rem;
   font-weight: 600;
-  padding: 0 0.5rem 0 0;
+  padding-right: 0.5rem;
   color: var(--text-color);
+  margin-bottom: 1rem;
 }
 
 .date-inputs {
   display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
+}
+.date-inputs label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
 }
 .date-inputs input[type="date"] {
   width: 200px;
@@ -403,13 +438,7 @@ body {
   border: 1px solid var(--border-color);
   border-radius: 4px;
   font-family: inherit;
-}
-
-.option-group {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 1rem;
+  font-size: 1rem;
 }
 
 .radio-group label {
@@ -420,12 +449,14 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
-  margin-top: 1rem;
 }
 
 .metric-item {
   display: flex;
   align-items: center;
+  background-color: var(--secondary-bg);
+  padding: 0.75rem;
+  border-radius: 5px;
 }
 .metric-item label {
   margin-left: 0.5rem;
@@ -450,12 +481,15 @@ body {
 }
 
 .report-status {
-  margin-top: 2rem;
   padding: 1.5rem;
   background-color: var(--secondary-bg);
   border: 1px solid var(--border-color);
   border-radius: 6px;
   text-align: center;
+}
+.report-status h4 {
+    margin-top: 0;
+    font-size: 1.2rem;
 }
 
 .download-btn {
@@ -463,7 +497,7 @@ body {
   padding: 0.75rem 1.5rem;
   text-decoration: none;
   color: var(--highlight-text-color);
-  background-color: #28a745; /* Green for success */
+  background-color: #28a745; 
   border-radius: 5px;
   margin-top: 1rem;
   transition: background-color 0.2s;
@@ -472,6 +506,7 @@ body {
   background-color: #6c757d;
   pointer-events: none;
   cursor: not-allowed;
+  opacity: 0.7;
 }
 .download-btn:not(.disabled):hover {
   background-color: #218838;
