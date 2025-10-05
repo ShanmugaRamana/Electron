@@ -1,13 +1,13 @@
 :root {
-  /* -- White & Black Palette Variables -- */
+  /* -- White & Gray Palette Variables -- */
   --primary-bg: #ffffff;
-  --secondary-bg: #f1f3f5;
-  --text-color: #343a40;
-  --highlight-color: #000000; /* Changed from blue to black */
-  --highlight-text-color: #ffffff;
-  --content-bg: #f8f9fa;
-  --content-text: #212529;
+  --secondary-bg: #f8f9fa; /* Slightly off-white for backgrounds */
+  --content-bg: #f1f3f5;   /* Light gray for the main page background */
   --border-color: #dee2e6;
+  --text-color: #212529;     /* Main dark text */
+  --text-color-muted: #6c757d; /* Lighter gray for descriptions */
+  --highlight-color: #000000;
+  --highlight-text-color: #ffffff;
 
   /* -- Layout Variables -- */
   --sidebar-width: 260px;
@@ -23,7 +23,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   background-color: var(--content-bg);
-  color: var(--content-text);
+  color: var(--text-color);
   overflow-x: hidden; /* Prevent horizontal scrollbar during animation */
 }
 
@@ -79,7 +79,6 @@ body {
   transition: background-color var(--transition-speed), color var(--transition-speed);
 }
 
-/* Add spacing for the new icons */
 .sidebar-menu li a i {
   width: 30px; /* Give icons a fixed width for alignment */
   margin-right: 10px;
@@ -108,8 +107,7 @@ body {
     margin-left: 0;
 }
 
-
-/* Toggle Button Styles (Animation Fix) */
+/* Toggle Button Styles */
 .sidebar-toggle-btn {
   position: fixed;
   top: 15px;
@@ -122,7 +120,6 @@ body {
   cursor: pointer;
   padding: 8px 12px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  /* The fix: Animate 'transform' instead of 'left' */
   transition: transform var(--transition-speed) ease-in-out;
 }
 
@@ -131,6 +128,101 @@ body {
 }
 
 .sidebar-toggle-btn.toggled {
-    /* Apply translation to move the button smoothly */
     transform: translateX(var(--sidebar-width));
+}
+
+/* --- Dashboard Overview Styles (NEW) --- */
+
+.main-content h1 {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+
+/* KPI Cards Grid */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.kpi-card {
+  background-color: var(--primary-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.03);
+}
+
+.kpi-card h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-color-muted);
+  text-transform: uppercase;
+}
+
+.kpi-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-color);
+}
+
+.kpi-desc {
+  margin: 0.25rem 0 0 0;
+  color: var(--text-color-muted);
+}
+
+/* Charts Grid */
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.chart-container {
+  background-color: var(--primary-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.03);
+}
+
+.chart-container h3 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.main-chart {
+  grid-column: 1 / 4; /* Span all 3 columns */
+}
+
+.secondary-chart {
+  grid-column: span 1; /* Each takes 1 column */
+}
+
+.chart-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  min-height: 250px;
+  background-color: var(--secondary-bg);
+  border-radius: 5px;
+  border: 1px dashed var(--border-color);
+  color: var(--text-color-muted);
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .charts-grid {
+    grid-template-columns: 1fr; /* Stack charts on smaller screens */
+  }
+  .main-chart, .secondary-chart {
+    grid-column: 1 / -1; /* Make all charts full-width */
+  }
 }
