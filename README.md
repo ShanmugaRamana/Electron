@@ -1,4 +1,4 @@
-Power Consumption Dashboard ⚡
+Power Consumption Dashboard 
 A dynamic web dashboard for visualizing and analyzing power consumption data, featuring historical graphs and predictive forecasting.
 
 About The Project
