@@ -1,0 +1,353 @@
+/* ========================================
+   FORECASTING PAGE SPECIFIC STYLES
+   Add this to your existing CSS or create a separate forecasting.css
+   ======================================== */
+
+/* Override dashboard grid for forecasting page - Chart LEFT, Map RIGHT */
+.dashboard-layout .dashboard-grid {
+  grid-template-columns: 1fr 420px; /* Chart takes most space, map on right */
+}
+
+/* Make the map panel larger and positioned on the right */
+.dashboard-layout .map-panel {
+  min-width: 380px;
+  max-width: 480px;
+  order: 2; /* Ensure map appears on the right */
+}
+
+.dashboard-layout .map-panel h2 {
+  font-size: 1.2rem;
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+/* Optimize map container for slightly larger view */
+.dashboard-layout #campus-map-container {
+  min-height: 500px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+/* Make the charts panel take priority and appear first */
+.dashboard-layout .charts-panel {
+  min-width: 0; /* Allow it to shrink properly */
+  order: 1; /* Ensure chart appears on the left */
+}
+
+/* Enhance the select dropdown styling */
+.dashboard-layout #horizon-select {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: var(--secondary-bg);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath fill='%23212529' d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 12px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.dashboard-layout #horizon-select:hover {
+  border-color: var(--text-color-muted);
+  background-color: #e9ecef;
+}
+
+.dashboard-layout #horizon-select:focus {
+  outline: none;
+  border-color: var(--highlight-color);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Improve chart container */
+.dashboard-layout .chart-container-single {
+  background-color: var(--primary-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+}
+
+.dashboard-layout .chart-container-single h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--text-color);
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Add a subtle indicator icon for the title */
+.dashboard-layout .chart-container-single h3::before {
+  content: '';
+  font-size: 1.2rem;
+}
+
+/* Optimize chart wrapper for larger display */
+.dashboard-layout .chart-wrapper-single {
+  min-height: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Make SVG buildings appropriate size for larger map */
+.dashboard-layout .campus-map-svg .building-label {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.dashboard-layout .campus-map-svg {
+  max-height: 700px;
+}
+
+/* ========================================
+   RESPONSIVE ADJUSTMENTS FOR FORECASTING
+   ======================================== */
+
+@media (max-width: 1600px) {
+  .dashboard-layout .dashboard-grid {
+    grid-template-columns: 1fr 380px;
+  }
+}
+
+@media (max-width: 1400px) {
+  .dashboard-layout .dashboard-grid {
+    grid-template-columns: 1fr 340px;
+  }
+  
+  .dashboard-layout .map-panel {
+    min-width: 320px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .dashboard-layout .dashboard-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+    gap: 1.5rem;
+  }
+  
+  .dashboard-layout .charts-panel {
+    order: 1;
+  }
+  
+  .dashboard-layout .map-panel {
+    order: 2;
+    max-width: 100%;
+    min-height: 350px;
+  }
+  
+  .dashboard-layout #campus-map-container {
+    min-height: 350px;
+  }
+  
+  .dashboard-layout .chart-wrapper-single {
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-layout .dashboard-grid {
+    gap: 1rem;
+  }
+  
+  .dashboard-layout .map-panel {
+    min-height: 300px;
+  }
+  
+  .dashboard-layout #campus-map-container {
+    min-height: 300px;
+  }
+  
+  .dashboard-layout .chart-container-single {
+    padding: 1rem;
+  }
+  
+  .dashboard-layout .chart-container-single h3 {
+    font-size: 1.2rem;
+  }
+  
+  .dashboard-layout .chart-wrapper-single {
+    min-height: 300px;
+  }
+  
+  .dashboard-layout .filter-controls-inline {
+    flex-direction: column;
+  }
+  
+  .dashboard-layout .control-group {
+    width: 100%;
+  }
+}
+
+/* ========================================
+   ENHANCED VISUAL EFFECTS FOR FORECASTING
+   ======================================== */
+
+/* Add subtle animation to panels on load */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.dashboard-layout .charts-panel {
+  animation: slideInLeft 0.5s ease-out;
+}
+
+.dashboard-layout .map-panel {
+  animation: slideInRight 0.5s ease-out;
+}
+
+/* Enhance building hover effects for forecasting page */
+.dashboard-layout .campus-map-svg .building {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dashboard-layout .campus-map-svg .building:hover {
+  filter: brightness(0.9);
+  stroke-width: 3;
+  transform: scale(1.02);
+  transform-origin: center;
+}
+
+.dashboard-layout .campus-map-svg .building.selected,
+.dashboard-layout .campus-map-svg .building-group.selected .building {
+  stroke: black;
+  stroke-width: 4;
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+}
+
+/* Add a subtle border effect to map panel */
+.dashboard-layout .map-panel {
+  position: relative;
+}
+
+.dashboard-layout .map-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    var(--highlight-color) 0%, 
+    var(--text-color-muted) 50%, 
+    var(--highlight-color) 100%);
+  border-radius: 12px 12px 0 0;
+}
+
+/* Loading state for chart */
+.chart-wrapper-single.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-wrapper-single.loading::after {
+  content: 'Loading forecast data...';
+  font-size: 1.1rem;
+  color: var(--text-color-muted);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ========================================
+   FILTER CONTROLS ENHANCEMENT
+   ======================================== */
+
+.dashboard-layout .filter-controls-inline {
+  background-color: var(--secondary-bg);
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-layout .filter-controls-inline .control-group label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  color: var(--text-color-muted);
+  margin-bottom: 0.5rem;
+}
+
+/* Add focus ring to select */
+.dashboard-layout #horizon-select:focus-visible {
+  outline: 2px solid var(--highlight-color);
+  outline-offset: 2px;
+}
+
+/* Map panel header enhancement */
+.dashboard-layout .map-panel h2::after {
+  content: '';
+  margin-left: 0.5rem;
+  font-size: 1.1rem;
+}
+
+/* Add subtle grid pattern to map background */
+.dashboard-layout #campus-map-container {
+  background-image: 
+    linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.02) 0px,
+      rgba(0, 0, 0, 0.02) 1px,
+      transparent 1px,
+      transparent 20px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.02) 0px,
+      rgba(0, 0, 0, 0.02) 1px,
+      transparent 1px,
+      transparent 20px
+    );
+  background-blend-mode: normal;
+}
+
+/* Improve chart container shadow on hover */
+.dashboard-layout .chart-container-single {
+  transition: all 0.3s ease;
+}
+
+.dashboard-layout .chart-container-single:hover {
+  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+}       

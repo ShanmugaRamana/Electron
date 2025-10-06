@@ -2,3 +2,5 @@ prophet
 pandas
 psycopg2-binary
 python-dotenv
+scikit-learn
+xgboost

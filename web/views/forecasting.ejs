@@ -2,51 +2,21 @@
 <%- include('partials/sidebar') %>
 
 <main class="main-content dashboard-layout">
-  <h1>Campus Energy Dashboard</h1>
+  <h1>Forecasting</h1>
 
   <div class="dashboard-grid">
-    <section class="dashboard-panel map-panel">
-      <h2>Campus Overview</h2>
-      <div id="campus-map-container">
-      <svg width="100%" height="100%" viewBox="0 0 700 800" class="campus-map-svg">
-        <rect data-metric="staff_quarters_util_pred" data-name="Staff Quarters" id="staff-quarters-shape" class="building staff-quarters" x="150" y="50" width="300" height="100" rx="5"></rect>
-        <text x="300" y="100" class="building-label">Staff Quarters</text>
-
-        <g class="building-group" data-metric="academic_blocks_util_pred" data-name="Academic Block">
-          <rect id="academic-block-left-shape" class="building academic-block" x="100" y="180" width="100" height="200" rx="5"></rect>
-          <rect id="academic-block-mid-right-shape" class="building academic-block" x="400" y="180" width="100" height="200" rx="5"></rect>
-          <polygon id="academic-block-top-right-shape" class="building academic-block" points="550,220 650,220 650,280 600,320 550,320" rx="5"></polygon>
-        </g>
-        <text x="150" y="280" class="building-label rotated-label">Academic Block</text>
-        <text x="450" y="280" class="building-label rotated-label">Academic Block</text>
-
-        <rect data-metric="chiller_plant_util_pred" data-name="Chiller Plant" id="chiller-plant-shape" class="building chiller-plant" x="220" y="240" width="160" height="100" rx="5"></rect>
-        <text x="300" y="290" class="building-label">Chiller Plant</text>
-
-        <g class="building-group" data-metric="hostels_util_pred" data-name="Hostel">
-          <path id="hostel-bottom-left-shape" class="building hostel" d="M 50 450 L 50 650 L 200 650 L 200 550 L 150 550 L 150 450 Z" rx="5"></path>
-          <path id="hostel-bottom-right-shape" class="building hostel" d="M 550 400 L 550 700 L 650 700 L 650 500 L 600 500 L 600 400 Z" rx="5"></path>
-        </g>
-        <text x="125" y="550" class="building-label rotated-label">Hostel</text>
-        <text x="600" y="550" class="building-label rotated-label">Hostel</text>
-
-        <rect data-metric="stp_util_pred" data-name="STP" id="stp-shape" class="building stp" x="600" y="720" width="80" height="60" rx="5"></rect>
-        <text x="640" y="750" class="building-label">STP</text>
-      </svg>
-    </div>
-    </section>
-
     <section class="dashboard-panel charts-panel">
       <div class="filter-controls-inline">
         <div class="control-group">
-          <label for="start-date">Start Date</label>
-          <input type="date" id="start-date" name="start-date">
-        </div>
-        <div class="control-group">
-          <label for="end-date">End Date</label>
-          <input type="date" id="end-date" name="end-date">
+          <label for="horizon-select">Forecast Period</label>
+          <select id="horizon-select" name="horizon">
+            <option value="3">Next 3 Days</option>
+            <option value="7" selected>Next 7 Days</option>
+            <option value="30">Next 30 Days</option>
+          </select>
         </div>
       </div>
+
       <div class="chart-container-single">
         <h3 id="total-consumption-title">Total Consumption Forecast</h3>
         <div class="chart-wrapper-single">
@@ -54,7 +24,148 @@
         </div>
       </div>
     </section>
+
+    <section class="dashboard-panel map-panel">
+      <h2>Campus Overview</h2>
+      <div id="campus-map-container">
+        <svg width="100%" height="100%" viewBox="0 0 700 800" class="campus-map-svg" preserveAspectRatio="xMidYMid meet">
+          
+          <!-- Staff Quarters -->
+          <rect 
+            data-metric="staff_quarters_util_pred" 
+            data-name="Staff Quarters" 
+            id="staff-quarters-shape" 
+            class="building staff-quarters" 
+            x="150" y="50" width="300" height="100" rx="5">
+          </rect>
+          <text x="300" y="100" class="building-label">Staff Quarters</text>
+          
+          <!-- Academic Block Group -->
+          <g class="building-group" data-metric="academic_blocks_util_pred" data-name="Academic Block">
+            <!-- Left Academic Block -->
+            <rect 
+              id="academic-block-left-shape" 
+              class="building academic-block" 
+              x="100" y="180" width="100" height="200" rx="5">
+            </rect>
+            <text x="150" y="280" class="building-label">
+              <tspan x="150" dy="0">Academic</tspan>
+              <tspan x="150" dy="18">Block</tspan>
+            </text>
+            
+            <!-- Middle-Right Academic Block -->
+            <rect 
+              id="academic-block-mid-right-shape" 
+              class="building academic-block" 
+              x="400" y="180" width="100" height="200" rx="5">
+            </rect>
+            <text x="450" y="270" class="building-label">
+              <tspan x="450" dy="0">Academic</tspan>
+              <tspan x="450" dy="18">Block</tspan>
+            </text>
+            
+            <!-- Top-Right Academic Block (Polygon) -->
+            <polygon 
+              id="academic-block-top-right-shape" 
+              class="building academic-block" 
+              points="550,220 650,220 650,280 600,320 550,320">
+            </polygon>
+            <text x="600" y="265" class="building-label">
+              <tspan x="600" dy="0">Academic</tspan>
+              <tspan x="600" dy="18">Block</tspan>
+            </text>
+          </g>
+          
+          <!-- Chiller Plant -->
+          <rect 
+            data-metric="chiller_plant_util_pred" 
+            data-name="Chiller Plant" 
+            id="chiller-plant-shape" 
+            class="building chiller-plant" 
+            x="220" y="240" width="160" height="100" rx="5">
+          </rect>
+          <text x="300" y="285" class="building-label">
+            <tspan x="300" dy="0">Chiller</tspan>
+            <tspan x="300" dy="18">Plant</tspan>
+          </text>
+          
+          <!-- Hostel Group -->
+          <g class="building-group" data-metric="hostels_util_pred" data-name="Hostel">
+            <!-- Bottom-Left Hostel -->
+            <path 
+              id="hostel-bottom-left-shape" 
+              class="building hostel" 
+              d="M 50 450 L 50 650 L 200 650 L 200 550 L 150 550 L 150 450 Z">
+            </path>
+            <text x="125" y="545" class="building-label">
+              <tspan x="125" dy="0">Hostel</tspan>
+            </text>
+            
+            <!-- Bottom-Right Hostel -->
+            <path 
+              id="hostel-bottom-right-shape" 
+              class="building hostel" 
+              d="M 550 400 L 550 700 L 650 700 L 650 500 L 600 500 L 600 400 Z">
+            </path>
+            <text x="600" y="545" class="building-label">
+              <tspan x="600" dy="0">Hostel</tspan>
+            </text>
+          </g>
+          
+          <!-- STP -->
+          <rect 
+            data-metric="stp_util_pred" 
+            data-name="STP" 
+            id="stp-shape" 
+            class="building stp" 
+            x="600" y="720" width="80" height="60" rx="5">
+          </rect>
+          <text x="640" y="752" class="building-label">STP</text>
+          
+        </svg>
+      </div>
+    </section>
   </div>
 </main>
+
+<style>
+/* Additional styles for better text alignment */
+.campus-map-svg .building-label {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  fill: #343a40;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  pointer-events: none;
+}
+
+.campus-map-svg .building-label tspan {
+  text-anchor: middle;
+}
+
+/* Ensure proper rendering */
+.campus-map-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Fix Chart.js responsiveness */
+.dashboard-layout .chart-wrapper-single {
+  position: relative;
+  width: 100%;
+  flex-grow: 1;
+  min-height: 0;
+}
+
+.dashboard-layout .chart-wrapper-single canvas {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+</style>
 
 <%- include('partials/footer') %>

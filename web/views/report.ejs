@@ -8,6 +8,7 @@
 
   <div class="report-container">
     <form id="report-form">
+    <form id="report-form">
       
       <fieldset class="report-section">
         <legend>1. Select Date Range</legend>
@@ -26,7 +27,8 @@
       <fieldset class="report-section">
         <legend>2. Select Metrics to Include</legend>
         <div class="metrics-grid">
-          </div>
+          <!-- Metrics will be populated by report.js -->
+        </div>
       </fieldset>
 
       <fieldset class="report-section">
@@ -45,11 +47,412 @@
 
     </form>
 
-    <div id="report-status-area" class="report-status" style="display: none;">
-      <p id="status-message">Generating report...</p>
-      <a href="#" id="download-link" class="download-btn disabled" download>Download Report</a>
+    <!-- Right Status Container -->
+    <div id="report-status-area">
+      <!-- Initial State -->
+      <div id="initial-state" class="status-card">
+        <div class="status-icon-large">
+          <i class="fas fa-chart-bar"></i>
+        </div>
+        <h3>Ready to Generate</h3>
+        <p class="status-description">
+          Configure your report settings on the left and click "Generate Report" to create your custom energy consumption report.
+        </p>
+        <div class="info-box">
+          <div class="info-item">
+            <span class="info-label"><i class="fas fa-calendar-alt"></i></span>
+            <span class="info-text">Select date range</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label"><i class="fas fa-check-square"></i></span>
+            <span class="info-text">Choose metrics</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label"><i class="fas fa-file-alt"></i></span>
+            <span class="info-text">Pick format</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div id="loading-state" class="status-card" style="display: none;">
+        <div class="status-content">
+          <div class="loader-container">
+            <div class="spinner">
+              <i class="fas fa-cog fa-spin"></i>
+            </div>
+          </div>
+          <h3>Generating Report</h3>
+          <p class="status-description" id="loading-message">
+            Please wait while we compile your data...
+          </p>
+          <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar"></div>
+          </div>
+          <p class="progress-text" id="progress-text">0%</p>
+        </div>
+      </div>
+
+      <!-- Success State -->
+      <div id="success-state" class="status-card" style="display: none;">
+        <div class="status-content">
+          <div class="status-icon-large success">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <h3>Report Ready!</h3>
+          <p class="status-description">
+            Your report has been generated successfully and is ready for download.
+          </p>
+          <div class="button-group">
+            <a href="#" id="download-link" class="download-btn" download>
+              <i class="fas fa-download"></i>
+              Download Report
+            </a>
+            <button type="button" id="generate-another-btn" class="secondary-btn">
+              <i class="fas fa-redo"></i>
+              Generate Another Report
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div id="error-state" class="status-card" style="display: none;">
+        <div class="status-content">
+          <div class="status-icon-large error">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <h3>Generation Failed</h3>
+          <p class="status-description" id="error-message">
+            An error occurred while generating your report. Please try again.
+          </p>
+          <button type="button" id="retry-btn" class="secondary-btn">
+            <i class="fas fa-redo"></i>
+            Try Again
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </main>
+
+<style>
+/* Report Container */
+.report-container {
+  display: flex;
+  gap: 1.25rem;
+  flex-grow: 1;
+  overflow: hidden;
+  min-height: 0;
+  align-items: stretch;
+}
+
+#report-form {
+  flex: 1;
+  background-color: var(--primary-bg);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  overflow-y: auto;
+}
+
+/* Report Status Area Styles */
+#report-status-area {
+  flex: 0 0 450px;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  min-height: 600px;
+  max-height: 600px;
+}
+
+.status-card {
+  background-color: var(--primary-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.4s ease;
+}
+
+.status-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 380px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.status-icon-large {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  animation: bounceIn 0.6s ease;
+  color: var(--text-color);
+}
+
+.status-icon-large i {
+  display: block;
+}
+
+.status-icon-large.success {
+  color: #28a745;
+  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+}
+
+.status-icon-large.error {
+  color: #dc3545;
+  background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.status-card h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.status-description {
+  font-size: 1rem;
+  color: var(--text-color-muted);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+/* Info Box */
+.info-box {
+  background-color: var(--secondary-bg);
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-top: 1.5rem;
+  width: 100%;
+  max-width: 350px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 0;
+  text-align: left;
+}
+
+.info-item:not(:last-child) {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.info-label {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+  color: var(--highlight-color);
+  width: 30px;
+  text-align: center;
+}
+
+.info-label i {
+  font-size: 1.25rem;
+}
+
+.info-text {
+  font-size: 1rem;
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+/* Loading Spinner */
+.loader-container {
+  margin-bottom: 1.5rem;
+}
+
+.spinner {
+  font-size: 4rem;
+  color: var(--highlight-color);
+  margin: 0 auto;
+}
+
+.spinner i {
+  display: block;
+}
+
+/* Progress Bar */
+.progress-bar-container {
+  width: 100%;
+  max-width: 350px;
+  height: 8px;
+  background-color: var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 1.5rem 0 1rem 0;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--highlight-color) 0%, #4a4a4a 100%);
+  width: 0%;
+  transition: width 0.3s ease;
+  border-radius: 4px;
+}
+
+.progress-text {
+  font-size: 0.9rem;
+  color: var(--text-color-muted);
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+/* Buttons */
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  width: 100%;
+  text-decoration: none;
+  color: var(--highlight-text-color);
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 1.05rem;
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+  border: none;
+  cursor: pointer;
+}
+
+.download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(40, 167, 69, 0.4);
+}
+
+.download-btn i {
+  font-size: 1.2rem;
+}
+
+.secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  width: 100%;
+  background-color: var(--secondary-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.05rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.secondary-btn:hover {
+  background-color: var(--highlight-color);
+  color: var(--highlight-text-color);
+  border-color: var(--highlight-color);
+}
+
+.secondary-btn i {
+  font-size: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .report-container {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  #report-status-area {
+    flex: 0 0 auto;
+    min-height: 400px;
+    max-height: none;
+    margin-top: 0;
+  }
+  
+  .status-card {
+    height: auto;
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  #report-status-area {
+    min-height: 350px;
+  }
+  
+  .status-card {
+    padding: 2rem 1.5rem;
+    min-height: 350px;
+  }
+  
+  .status-icon-large {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .status-icon-large.success,
+  .status-icon-large.error {
+    width: 80px;
+    height: 80px;
+    font-size: 2.5rem;
+  }
+}
+</style>
+
 
 <%- include('partials/footer') %>

@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const startDateInput = document.getElementById('start-date');
-  const endDateInput = document.getElementById('end-date');
+  const API_BASE_URL = 'http://127.0.0.1:8000';
+  
+  const horizonSelect = document.getElementById('horizon-select');
   const mapShapes = document.querySelectorAll('.campus-map-svg .building, .campus-map-svg .building-group');
   const chartTitle = document.getElementById('total-consumption-title');
 
@@ -9,14 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentMetricName = 'Total Consumption';
 
   function initialize() {
-    // Default to a range that spans historical and future data
-    const startDate = new Date('2025-06-24');
-    const endDate = new Date('2025-07-07');
-    startDateInput.value = startDate.toISOString().split('T')[0];
-    endDateInput.value = endDate.toISOString().split('T')[0];
-    
     // Add event listeners
-    [startDateInput, endDateInput].forEach(el => el.addEventListener('change', () => updateChartWithMetric(currentMetric, currentMetricName)));
+    horizonSelect.addEventListener('change', () => updateChartWithMetric(currentMetric, currentMetricName));
 
     mapShapes.forEach(shape => {
       shape.addEventListener('click', () => {
@@ -33,28 +28,52 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function updateChartWithMetric(metric, name) {
-    // ... (logic to update visual feedback and get dates is the same as before) ...
+    currentMetric = metric;
+    currentMetricName = name;
+    
+    // Update visual feedback on the map
+    mapShapes.forEach(s => s.classList.remove('selected'));
+    const selectedShape = document.querySelector(`[data-metric="${metric}"]`);
+    if (selectedShape) {
+      selectedShape.classList.add('selected');
+    }
+
+    // --- NEW: Calculate dates based on dropdown ---
+    const daysToForecast = parseInt(horizonSelect.value, 10);
+    const today = new Date();
+    const futureDate = new Date();
+    futureDate.setDate(today.getDate() + daysToForecast - 1); // -1 because we include today
+
+    const startDate = today.toISOString().split('T')[0];
+    const endDate = futureDate.toISOString().split('T')[0];
+    // ---------------------------------------------
+    
+    chartTitle.textContent = `${name} Forecast`;
     
     try {
-      const apiUrl = `/api/v1/forecasts/metric/?start_date=${startDateInput.value}&end_date=${endDateInput.value}&metric_name=${metric}`;
-      const response = await fetch(`http://127.0.0.1:8000${apiUrl}`);
-      if (!response.ok) throw new Error('Failed to fetch data');
+      const apiUrl = `${API_BASE_URL}/api/v1/forecasts/metric/?start_date=${startDate}&end_date=${endDate}&metric_name=${metric}`;
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.detail || 'Failed to fetch forecast data');
+      }
       const data = await response.json();
       
       renderForecastChart(data);
     } catch (error) {
       console.error("Error updating chart:", error);
+      chartTitle.textContent = `Error: ${error.message}`;
     }
   }
   
   function renderForecastChart(data) {
     const ctx = document.getElementById('total-consumption-chart').getContext('2d');
     if (forecastChartInstance) forecastChartInstance.destroy();
-
-    // Separate data into historical and predicted arrays
+    
+    // Logic to separate historical and predicted data
     const historicalPoints = data.filter(d => d.type === 'historical');
     const predictedPoints = data.filter(d => d.type === 'predicted');
-
+    
     forecastChartInstance = new Chart(ctx, {
       type: 'line',
       data: {
@@ -63,19 +82,17 @@ document.addEventListener('DOMContentLoaded', () => {
           {
             label: `Actual ${currentMetricName}`,
             data: historicalPoints.map(d => ({ x: d.reading_date, y: d.prediction })),
-            borderColor: 'rgb(54, 162, 235)', // Blue for actual data
+            borderColor: 'rgb(54, 162, 235)',
             backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            fill: true,
-            tension: 0.3,
+            fill: true, tension: 0.3,
           },
           {
             label: `Predicted ${currentMetricName}`,
             data: predictedPoints.map(d => ({ x: d.reading_date, y: d.prediction })),
-            borderColor: 'rgb(255, 99, 132)', // Red for predicted data
+            borderColor: 'rgb(255, 99, 132)',
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderDash: [5, 5], // Make the prediction line dashed
-            fill: true,
-            tension: 0.3,
+            borderDash: [5, 5],
+            fill: true, tension: 0.3,
           }
         ]
       },
